@@ -53,7 +53,7 @@ function PreviewCard({
     <div
       className={`bg-card border-2 p-6 ${className}`}
       style={{
-        borderRadius: "var(--radius-default)",
+        borderRadius: "0.5rem", // Fixed border radius for preview
         boxShadow: "var(--shadow-default)",
       }}
     >
@@ -359,6 +359,7 @@ function TypographyCustomizer() {
     selectedFontWeight,
     setSelectedFontSize,
     setSelectedFontWeight,
+    selectedRadius,
   } = useDesignStore();
 
   const fontFamilies = [
@@ -405,7 +406,10 @@ function TypographyCustomizer() {
                   setSelectedFontFamily(font.value);
                 }}
                 className="h-8"
-                style={{ fontFamily: font.value }}
+                style={{
+                  fontFamily: font.value,
+                  borderRadius: tokens.radius[selectedRadius],
+                }}
               >
                 {font.name}
               </Button>
@@ -422,6 +426,7 @@ function TypographyCustomizer() {
                 variant={selectedFontSize === size ? "default" : "outline"}
                 onClick={() => setSelectedFontSize(size)}
                 className="h-8"
+                style={{ borderRadius: tokens.radius[selectedRadius] }}
               >
                 {size}
               </Button>
@@ -445,16 +450,13 @@ function TypographyCustomizer() {
                 variant={selectedFontWeight === weight ? "default" : "outline"}
                 onClick={() => setSelectedFontWeight(weight)}
                 className="h-8"
+                style={{ borderRadius: tokens.radius[selectedRadius] }}
               >
                 {weight}
               </Button>
             ))}
           </div>
           <Input
-            type="number"
-            min="100"
-            max="900"
-            step="100"
             value={tokens.typography.fontWeight[selectedFontWeight] || ""}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const value = e.target.value;

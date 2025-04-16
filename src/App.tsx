@@ -1,6 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ColorPalette } from "@/components/playground/ColorPalette";
-import { Spacing } from "@/components/playground/Spacing";
 import { TokenCustomizer } from "@/components/playground/TokenCustomizer";
 
 export default function App() {
@@ -26,9 +25,6 @@ export default function App() {
             <TabsTrigger value="shadows" className="flex-1">
               Shadows
             </TabsTrigger>
-            <TabsTrigger value="spacing" className="flex-1">
-              Spacing
-            </TabsTrigger>
           </TabsList>
           <div className="mt-6">
             <TabsContent value="colors" className="space-y-8">
@@ -43,9 +39,6 @@ export default function App() {
             </TabsContent>
             <TabsContent value="shadows">
               <TokenCustomizer defaultTab="shadows" />
-            </TabsContent>
-            <TabsContent value="spacing">
-              <Spacing />
             </TabsContent>
           </div>
         </Tabs>
