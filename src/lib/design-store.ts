@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { defaultTokens } from "./default-tokens";
-import { hexToRgb } from "./utils";
+
 
 type ShadeKey =
   | "50"
@@ -75,6 +75,8 @@ type DesignStore = {
   tokens: DesignTokens;
   selectedRadius: keyof BorderRadius;
   selectedShadow: keyof BoxShadow;
+  selectedFontSize: string;
+  selectedFontWeight: string;
   updateColor: (
     palette: keyof DesignTokens["colors"],
     shade: string,
@@ -89,6 +91,8 @@ type DesignStore = {
   updateShadow: (size: keyof BoxShadow, value: string) => void;
   setSelectedRadius: (size: keyof BorderRadius) => void;
   setSelectedShadow: (size: keyof BoxShadow) => void;
+  setSelectedFontSize: (size: string) => void;
+  setSelectedFontWeight: (weight: string) => void;
   resetTokens: () => void;
 };
 
@@ -98,6 +102,8 @@ export const useDesignStore = create<DesignStore>()(
       tokens: defaultTokens,
       selectedRadius: "md",
       selectedShadow: "md",
+      selectedFontSize: "base",
+      selectedFontWeight: "normal",
       updateColor: (palette, shade, value) =>
         set((state) => ({
           tokens: {
@@ -158,68 +164,35 @@ export const useDesignStore = create<DesignStore>()(
         })),
       setSelectedRadius: (size) => set({ selectedRadius: size }),
       setSelectedShadow: (size) => set({ selectedShadow: size }),
+      setSelectedFontSize: (size) => set({ selectedFontSize: size }),
+      setSelectedFontWeight: (weight) => set({ selectedFontWeight: weight }),
       resetTokens: () =>
         set({
           tokens: defaultTokens,
           selectedRadius: "md",
           selectedShadow: "md",
+          selectedFontSize: "base",
+          selectedFontWeight: "normal",
         }),
     }),
     {
       name: "design-store",
+      storage: {
+        getItem: (name) => {
+          const str = localStorage.getItem(name);
+          if (!str) return null;
+          try {
+            const data = JSON.parse(str);
+            return data.state;
+          } catch {
+            return null;
+          }
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify({ state: value }));
+        },
+        removeItem: (name) => localStorage.removeItem(name),
+      },
     },
   ),
 );
-
-export const generateTailwindConfig = (tokens: DesignTokens): string => {
-  const config = {
-    theme: {
-      extend: {
-        colors: {
-          primary: tokens.colors.primary,
-          secondary: tokens.colors.secondary,
-          accent: tokens.colors.accent,
-        },
-        borderRadius: {
-          DEFAULT: tokens.radius.md,
-        },
-        boxShadow: {
-          DEFAULT: tokens.shadows.md,
-        },
-        fontFamily: {
-          sans: [tokens.typography.fontFamily],
-        },
-        fontSize: {
-          base: tokens.typography.fontSize,
-        },
-        lineHeight: {
-          base: tokens.typography.lineHeight.normal,
-        },
-        fontWeight: {
-          base: tokens.typography.fontWeight,
-        },
-      },
-    },
-  };
-
-  return JSON.stringify(config, null, 2);
-};
-
-export const generateCSSVariables = (tokens: DesignTokens): string => {
-  const { r, g, b } = hexToRgb(tokens.colors.primary["500"]);
-  const cssVars = `
-:root {
-    --primary: ${tokens.colors.primary["500"]};
-    --primary-rgb: ${r} ${g} ${b};
-    --secondary: ${tokens.colors.secondary};
-    --accent: ${tokens.colors.accent};
-    --radius: ${tokens.radius.md};
-    --shadow: ${tokens.shadows.md};
-    --font-family: ${tokens.typography.fontFamily};
-    --font-size: ${tokens.typography.fontSize};
-    --line-height: ${tokens.typography.lineHeight};
-    --font-weight: ${tokens.typography.fontWeight};
-}`;
-
-  return cssVars;
-};

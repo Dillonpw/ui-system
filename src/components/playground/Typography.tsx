@@ -7,8 +7,11 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useDesignStore } from "@/lib/design-store";
 
 export function Typography() {
+  const { tokens, selectedFontSize, selectedFontWeight } = useDesignStore();
+
   return (
     <div className="space-y-8">
       <Card>
@@ -65,6 +68,27 @@ export function Typography() {
               <p className="font-light">Font Light (300)</p>
               <p className="font-extralight">Font Extra Light (200)</p>
               <p className="font-thin">Font Thin (100)</p>
+            </div>
+          </div>
+
+          <Separator />
+
+          <div className="space-y-4">
+            <Label className="text-muted-foreground text-xs">
+              Current Settings
+            </Label>
+            <div className="space-y-2">
+              <p>
+                <strong>Selected Font Size:</strong> {selectedFontSize} (
+                {tokens.typography.fontSize[selectedFontSize]})
+              </p>
+              <p>
+                <strong>Selected Font Weight:</strong> {selectedFontWeight} (
+                {tokens.typography.fontWeight[selectedFontWeight]})
+              </p>
+              <p>
+                <strong>Font Family:</strong> {tokens.typography.fontFamily}
+              </p>
             </div>
           </div>
 

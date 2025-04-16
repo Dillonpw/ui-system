@@ -1,3 +1,5 @@
+import type React from "react";
+
 import {
   Card,
   CardContent,
@@ -25,7 +27,7 @@ function getContrastTextColor(color: string) {
     // Extract lightness value from OKLCH
     const match = color.match(/oklch\(([\d.]+)/);
     if (match) {
-      const lightness = parseFloat(match[1]);
+      const lightness = Number.parseFloat(match[1]);
       // Return white for dark colors (lightness < 0.5), black for light colors
       return lightness < 0.5 ? "#ffffff" : "#000000";
     }
@@ -33,9 +35,9 @@ function getContrastTextColor(color: string) {
 
   // Handle hex colors (fallback)
   const hexColor = color.replace("#", "");
-  const r = parseInt(hexColor.substr(0, 2), 16);
-  const g = parseInt(hexColor.substr(2, 2), 16);
-  const b = parseInt(hexColor.substr(4, 2), 16);
+  const r = Number.parseInt(hexColor.substr(0, 2), 16);
+  const g = Number.parseInt(hexColor.substr(2, 2), 16);
+  const b = Number.parseInt(hexColor.substr(4, 2), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.5 ? "#000000" : "#ffffff";
 }
@@ -350,11 +352,14 @@ function ColorCustomizer() {
 }
 
 function TypographyCustomizer() {
-  const { tokens, updateTypography } = useDesignStore();
-  const [selectedSize, setSelectedSize] =
-    useState<keyof typeof tokens.typography.fontSize>("base");
-  const [selectedWeight, setSelectedWeight] =
-    useState<keyof typeof tokens.typography.fontWeight>("normal");
+  const {
+    tokens,
+    updateTypography,
+    selectedFontSize,
+    selectedFontWeight,
+    setSelectedFontSize,
+    setSelectedFontWeight,
+  } = useDesignStore();
 
   const fontFamilies = [
     { name: "Inter", value: "Inter, system-ui, sans-serif" },
@@ -369,6 +374,7 @@ function TypographyCustomizer() {
     tokens.typography.fontFamily || fontFamilies[0].value,
   );
 
+  // Update font family when it changes
   useEffect(() => {
     const matchingFont = fontFamilies.find(
       (font) => font.value === tokens.typography.fontFamily,
@@ -378,6 +384,7 @@ function TypographyCustomizer() {
     }
   }, [tokens.typography.fontFamily]);
 
+  // Update font family in store
   useEffect(() => {
     updateTypography("fontFamily", "", selectedFontFamily);
   }, [selectedFontFamily, updateTypography]);
@@ -412,12 +419,8 @@ function TypographyCustomizer() {
             {Object.entries(tokens.typography.fontSize).map(([size]) => (
               <Button
                 key={size}
-                variant={selectedSize === size ? "default" : "outline"}
-                onClick={() =>
-                  setSelectedSize(
-                    size as keyof typeof tokens.typography.fontSize,
-                  )
-                }
+                variant={selectedFontSize === size ? "default" : "outline"}
+                onClick={() => setSelectedFontSize(size)}
                 className="h-8"
               >
                 {size}
@@ -425,14 +428,11 @@ function TypographyCustomizer() {
             ))}
           </div>
           <Input
-            value={tokens.typography.fontSize[selectedSize]}
-            onChange={(e) =>
-              updateTypography(
-                "fontSize",
-                selectedSize as string,
-                e.target.value,
-              )
-            }
+            value={tokens.typography.fontSize[selectedFontSize] || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const value = e.target.value;
+              updateTypography("fontSize", selectedFontSize, value);
+            }}
           />
         </div>
 
@@ -442,12 +442,8 @@ function TypographyCustomizer() {
             {Object.entries(tokens.typography.fontWeight).map(([weight]) => (
               <Button
                 key={weight}
-                variant={selectedWeight === weight ? "default" : "outline"}
-                onClick={() =>
-                  setSelectedWeight(
-                    weight as keyof typeof tokens.typography.fontWeight,
-                  )
-                }
+                variant={selectedFontWeight === weight ? "default" : "outline"}
+                onClick={() => setSelectedFontWeight(weight)}
                 className="h-8"
               >
                 {weight}
@@ -459,14 +455,11 @@ function TypographyCustomizer() {
             min="100"
             max="900"
             step="100"
-            value={tokens.typography.fontWeight[selectedWeight]}
-            onChange={(e) =>
-              updateTypography(
-                "fontWeight",
-                selectedWeight as string,
-                e.target.value,
-              )
-            }
+            value={tokens.typography.fontWeight[selectedFontWeight] || ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const value = e.target.value;
+              updateTypography("fontWeight", selectedFontWeight, value);
+            }}
           />
         </div>
       </div>
@@ -478,8 +471,8 @@ function TypographyCustomizer() {
             <div className="bg-muted/20 rounded-md border p-4">
               <p
                 style={{
-                  fontSize: tokens.typography.fontSize[selectedSize],
-                  fontWeight: tokens.typography.fontWeight[selectedWeight],
+                  fontSize: tokens.typography.fontSize[selectedFontSize],
+                  fontWeight: tokens.typography.fontWeight[selectedFontWeight],
                   fontFamily: selectedFontFamily,
                 }}
                 className="mb-2"
@@ -488,8 +481,8 @@ function TypographyCustomizer() {
               </p>
               <p
                 style={{
-                  fontSize: tokens.typography.fontSize[selectedSize],
-                  fontWeight: tokens.typography.fontWeight[selectedWeight],
+                  fontSize: tokens.typography.fontSize[selectedFontSize],
+                  fontWeight: tokens.typography.fontWeight[selectedFontWeight],
                   fontFamily: selectedFontFamily,
                 }}
               >
@@ -498,8 +491,9 @@ function TypographyCustomizer() {
               {selectedFontFamily.includes("Mono") && (
                 <p
                   style={{
-                    fontSize: tokens.typography.fontSize[selectedSize],
-                    fontWeight: tokens.typography.fontWeight[selectedWeight],
+                    fontSize: tokens.typography.fontSize[selectedFontSize],
+                    fontWeight:
+                      tokens.typography.fontWeight[selectedFontWeight],
                     fontFamily: selectedFontFamily,
                   }}
                   className="mt-2"
@@ -519,13 +513,13 @@ function TypographyCustomizer() {
               <div>
                 <Label className="text-xs">Current Size</Label>
                 <p className="text-muted-foreground text-sm">
-                  {tokens.typography.fontSize[selectedSize]}
+                  {tokens.typography.fontSize[selectedFontSize]}
                 </p>
               </div>
               <div>
                 <Label className="text-xs">Current Weight</Label>
                 <p className="text-muted-foreground text-sm">
-                  {tokens.typography.fontWeight[selectedWeight]}
+                  {tokens.typography.fontWeight[selectedFontWeight]}
                 </p>
               </div>
             </div>
@@ -690,7 +684,7 @@ function ShadowCustomizer() {
   );
 }
 
-export function generateTailwindConfig(tokens: DesignTokens) {
+export function generateTailwind(tokens: DesignTokens) {
   const config = {
     theme: {
       extend: {
