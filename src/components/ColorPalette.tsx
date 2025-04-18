@@ -8,6 +8,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useDesignStore } from "@/lib/design-store";
 import type { DesignTokens } from "@/lib/design-store";
+import { getContrastTextColor } from "./TokenCustomizer";
 
 type ColorScaleName = keyof Pick<
   DesignTokens["colors"],
@@ -19,27 +20,6 @@ const colorScales: Record<ColorScaleName, number[]> = {
   accent: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   gray: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
 };
-
-function getContrastTextColor(color: string) {
-  // Handle OKLCH colors
-  if (color.startsWith("oklch(")) {
-    // Extract lightness value from OKLCH
-    const match = color.match(/oklch\(([\d.]+)/);
-    if (match) {
-      const lightness = parseFloat(match[1]);
-      // Return white for dark colors (lightness < 0.5), black for light colors
-      return lightness < 0.5 ? "#ffffff" : "#000000";
-    }
-  }
-
-  // Handle hex colors (fallback)
-  const hexColor = color.replace("#", "");
-  const r = parseInt(hexColor.substr(0, 2), 16);
-  const g = parseInt(hexColor.substr(2, 2), 16);
-  const b = parseInt(hexColor.substr(4, 2), 16);
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.5 ? "#000000" : "#ffffff";
-}
 
 function ColorScale({
   name,

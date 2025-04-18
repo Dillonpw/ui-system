@@ -21,7 +21,7 @@ const shadeValues = [
 ] as const;
 type ShadeNumber = (typeof shadeValues)[number];
 
-function getContrastTextColor(color: string) {
+export function getContrastTextColor(color: string) {
   if (color.startsWith("oklch(")) {
     const match = color.match(/oklch\(([\d.]+)/);
     if (match) {
