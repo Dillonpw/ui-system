@@ -8,7 +8,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useDesignStore } from "@/lib/design-store";
 import type { DesignTokens } from "@/lib/design-store";
-import { getContrastTextColor } from "./TokenCustomizer";
+import { getContrastTextColor } from "@/lib/color-utils";
 
 type ColorScaleName = keyof Pick<
   DesignTokens["colors"],
