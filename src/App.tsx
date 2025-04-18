@@ -12,7 +12,7 @@ export default function App() {
         </div>
       </header>
       <main className="container py-6">
-        <Tabs defaultValue="components">
+        <Tabs defaultValue="colors">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="colors" className="flex-1">
               Colors

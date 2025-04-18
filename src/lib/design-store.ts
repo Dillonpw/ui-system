@@ -102,7 +102,7 @@ export const useDesignStore = create<DesignStore>()(
     (set) => ({
       tokens: defaultTokens,
       selectedRadius: "md",
-      selectedShadow: "md",
+      selectedShadow: "sm",
       selectedFontSize: "base",
       selectedFontWeight: "normal",
       updateColor: (palette, shade, value) =>
@@ -171,7 +171,7 @@ export const useDesignStore = create<DesignStore>()(
         set({
           tokens: defaultTokens,
           selectedRadius: "md",
-          selectedShadow: "md",
+          selectedShadow: "sm",
           selectedFontSize: "base",
           selectedFontWeight: "normal",
         }),
