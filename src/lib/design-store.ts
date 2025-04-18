@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { defaultTokens } from "./default-tokens";
 
-
 type ShadeKey =
   | "50"
   | "100"
@@ -39,6 +38,8 @@ type BorderRadius = {
 
 type BoxShadow = {
   none: string;
+  "2xs": string;
+  xs: string;
   sm: string;
   md: string;
   lg: string;

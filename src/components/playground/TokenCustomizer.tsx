@@ -22,18 +22,14 @@ const shadeValues = [
 type ShadeNumber = (typeof shadeValues)[number];
 
 function getContrastTextColor(color: string) {
-  // Handle OKLCH colors
   if (color.startsWith("oklch(")) {
-    // Extract lightness value from OKLCH
     const match = color.match(/oklch\(([\d.]+)/);
     if (match) {
       const lightness = Number.parseFloat(match[1]);
-      // Return white for dark colors (lightness < 0.5), black for light colors
       return lightness < 0.5 ? "#ffffff" : "#000000";
     }
   }
 
-  // Handle hex colors (fallback)
   const hexColor = color.replace("#", "");
   const r = Number.parseInt(hexColor.substr(0, 2), 16);
   const g = Number.parseInt(hexColor.substr(2, 2), 16);
@@ -53,7 +49,7 @@ function PreviewCard({
     <div
       className={`bg-card border-2 p-6 ${className}`}
       style={{
-        borderRadius: "0.5rem", // Fixed border radius for preview
+        borderRadius: "0.5rem",
         boxShadow: "var(--shadow-default)",
       }}
     >
@@ -617,10 +613,21 @@ function ShadowCustomizer() {
   const { tokens, updateShadow, selectedShadow, setSelectedShadow } =
     useDesignStore();
 
-  // Apply the selected shadow globally when it changes
+  const shadowOptions = [
+    "none",
+    "2xs",
+    "xs",
+    "sm",
+    "md",
+    "lg",
+    "xl",
+    "2xl",
+  ] as const;
+
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty("--shadow", tokens.shadows[selectedShadow]);
+    root.style.setProperty("--shadow-preview", tokens.shadows[selectedShadow]);
   }, [tokens.shadows, selectedShadow]);
 
   return (
@@ -628,14 +635,12 @@ function ShadowCustomizer() {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Shadow Size</Label>
-          <div className="grid grid-cols-3 gap-2">
-            {Object.entries(tokens.shadows).map(([size]) => (
+          <div className="grid grid-cols-4 gap-2">
+            {shadowOptions.map((size) => (
               <Button
                 key={size}
                 variant={selectedShadow === size ? "default" : "outline"}
-                onClick={() =>
-                  setSelectedShadow(size as keyof typeof tokens.shadows)
-                }
+                onClick={() => setSelectedShadow(size)}
                 className="h-8"
               >
                 {size}
@@ -656,26 +661,26 @@ function ShadowCustomizer() {
             <div
               className="bg-card h-20 rounded-lg"
               style={{
-                boxShadow: tokens.shadows[selectedShadow],
+                boxShadow: "var(--shadow-preview)",
               }}
             />
             <div className="grid grid-cols-3 gap-2">
               <div
                 className="bg-card h-12 rounded-lg"
                 style={{
-                  boxShadow: tokens.shadows[selectedShadow],
+                  boxShadow: "var(--shadow-preview)",
                 }}
               />
               <div
                 className="bg-card h-12 rounded-lg"
                 style={{
-                  boxShadow: tokens.shadows[selectedShadow],
+                  boxShadow: "var(--shadow-preview)",
                 }}
               />
               <div
                 className="bg-card h-12 rounded-lg"
                 style={{
-                  boxShadow: tokens.shadows[selectedShadow],
+                  boxShadow: "var(--shadow-preview)",
                 }}
               />
             </div>

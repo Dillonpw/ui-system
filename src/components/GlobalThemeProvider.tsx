@@ -2,18 +2,14 @@ import { useEffect } from "react";
 import { useDesignStore } from "@/lib/design-store";
 
 function getContrastTextColor(color: string) {
-  // Handle OKLCH colors
   if (color.startsWith("oklch(")) {
-    // Extract lightness value from OKLCH
     const match = color.match(/oklch\(([\d.]+)/);
     if (match) {
       const lightness = parseFloat(match[1]);
-      // Return white for dark colors (lightness < 0.5), black for light colors
       return lightness < 0.5 ? "#ffffff" : "#000000";
     }
   }
 
-  // Handle hex colors (fallback)
   const hexColor = color.replace("#", "");
   const r = parseInt(hexColor.substr(0, 2), 16);
   const g = parseInt(hexColor.substr(2, 2), 16);
@@ -38,20 +34,16 @@ export function GlobalThemeProvider({
   useEffect(() => {
     const root = document.documentElement;
 
-    // Apply typography settings globally
     root.style.setProperty("--font-family", tokens.typography.fontFamily);
 
-    // Apply all font sizes
     Object.entries(tokens.typography.fontSize).forEach(([size, value]) => {
       root.style.setProperty(`--font-size-${size}`, value);
     });
 
-    // Apply all font weights
     Object.entries(tokens.typography.fontWeight).forEach(([weight, value]) => {
       root.style.setProperty(`--font-weight-${weight}`, value.toString());
     });
 
-    // Apply selected font size and weight as defaults
     root.style.setProperty(
       "--font-size-base",
       tokens.typography.fontSize[selectedFontSize],
@@ -61,13 +53,11 @@ export function GlobalThemeProvider({
       tokens.typography.fontWeight[selectedFontWeight].toString(),
     );
 
-    // Apply font family to body
     document.body.style.fontFamily = tokens.typography.fontFamily;
     document.body.style.fontSize = tokens.typography.fontSize[selectedFontSize];
     document.body.style.fontWeight =
       tokens.typography.fontWeight[selectedFontWeight].toString();
 
-    // Apply color settings
     root.style.setProperty("--background", tokens.colors.background);
     root.style.setProperty(
       "--background-text",
@@ -136,11 +126,9 @@ export function GlobalThemeProvider({
       root.style.setProperty(`--shadow-${size}`, value);
     });
 
-    // Apply default radius and shadow values globally
     root.style.setProperty("--radius", tokens.radius.md);
     root.style.setProperty("--shadow", tokens.shadows.md);
 
-    // Set the selected radius and shadow as the default for all components
     root.style.setProperty("--radius-default", tokens.radius[selectedRadius]);
     root.style.setProperty("--shadow-default", tokens.shadows[selectedShadow]);
   }, [

@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ColorPalette } from "@/components/playground/ColorPalette";
 import { TokenCustomizer } from "@/components/playground/TokenCustomizer";
+import { ComponentsShowcase } from "@/components/playground/ComponentsShowcase";
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
         </div>
       </header>
       <main className="container py-6">
-        <Tabs defaultValue="colors">
+        <Tabs defaultValue="components">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="colors" className="flex-1">
               Colors
@@ -24,6 +25,9 @@ export default function App() {
             </TabsTrigger>
             <TabsTrigger value="shadows" className="flex-1">
               Shadows
+            </TabsTrigger>
+            <TabsTrigger value="components" className="flex-1">
+              Components
             </TabsTrigger>
           </TabsList>
           <div className="mt-6">
@@ -39,6 +43,9 @@ export default function App() {
             </TabsContent>
             <TabsContent value="shadows">
               <TokenCustomizer defaultTab="shadows" />
+            </TabsContent>
+            <TabsContent value="components">
+              <ComponentsShowcase />
             </TabsContent>
           </div>
         </Tabs>
