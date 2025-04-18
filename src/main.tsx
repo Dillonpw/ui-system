@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { GlobalThemeProvider } from "./components/global-theme-provider";
-import App from "./temp";            
+import App from "./App";            
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GlobalThemeProvider>
