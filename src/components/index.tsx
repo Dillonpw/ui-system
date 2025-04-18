@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useDesignStore } from "@/lib/design-store";
-import { ColorCustomizer } from "./ColorCustomizer";
-import { TypographyCustomizer } from "./TypographyCustomizer";
-import { RadiusCustomizer } from "./RadiusCustomizer";
-import { ShadowCustomizer } from "./ShadowCustomizer";
+import { ColorCustomizer } from "./color-customizer";
+import { TypographyCustomizer } from "./typography-customizer";
+import { RadiusCustomizer } from "./radius-customizer";
+import { ShadowCustomizer } from "./shadow-customizer";
 
 interface TokenCustomizerProps {
   defaultTab?: "colors" | "typography" | "radius" | "shadows" | "export";
@@ -46,9 +46,3 @@ export function TokenCustomizer({
   );
 }
 
-export * from "./ColorCustomizer";
-export * from "./TypographyCustomizer";
-export * from "./RadiusCustomizer";
-export * from "./ShadowCustomizer";
-export * from "./PreviewCard";
-export * from "../lib/token-generators";

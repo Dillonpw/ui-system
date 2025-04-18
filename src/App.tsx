@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ColorPalette } from "@/components/ColorPalette";
-import { TokenCustomizer } from "@/components/TokenCustomizer";
-import { ComponentsShowcase } from "@/components/ComponentsShowcase";
+import { ColorPalette } from "@/components/color-palette";
+import { TokenCustomizer } from "@/components/token-customizer";
+import { ComponentsShowcase } from "@/components/components-showcase";
 
 export default function App() {
   return (
