@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { DayPicker } from "react-day-picker";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { useDesignStore } from "@/lib/design-store";
 import { cn } from "@/lib/utils";
 
@@ -59,11 +56,6 @@ import {
 } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -93,7 +85,6 @@ import {
 } from "@/components/ui/tooltip";
 
 export function ComponentsShowcase() {
-  const [date, setDate] = useState<Date>();
   const { selectedRadius } = useDesignStore();
 
   const getRadiusClass = (
@@ -374,30 +365,6 @@ export function ComponentsShowcase() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-
-          {/* Date Picker */}
-          <div className="space-y-2">
-            <Label>Date Picker</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-[240px] justify-start text-left font-normal"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  Pick a date
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <DayPicker
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
           </div>
 
           {/* Dropdown Menu */}
