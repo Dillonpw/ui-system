@@ -7,7 +7,8 @@ export default function App() {
   return (
     <div className="bg-background flex min-h-screen flex-col items-center px-4">
       <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-        <div className="container flex h-14 items-center justify-between">
+        <div className="container flex h-14 items-center">
+          <img src="/dsp-logo.png" alt="Design System Playground" width={32} height={32} />
           <h1 className="text-2xl font-bold">Design System Playground</h1>
         </div>
       </header>

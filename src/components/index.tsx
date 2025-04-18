@@ -28,7 +28,7 @@ export function TokenCustomizer({
           <div>
             <CardTitle>Design System Customizer</CardTitle>
             <CardDescription>
-              Customize your design tokens and see live previews
+              Customize your design system and see live previews
             </CardDescription>
           </div>
           <Button variant="outline" onClick={resetTokens}>
