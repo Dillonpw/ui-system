@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
-import { PreviewCard } from "./PreviewCard";
+import { PreviewCard } from "@/components/preview-card";
 
 export function TypographyCustomizer() {
   const {
@@ -29,7 +29,6 @@ export function TypographyCustomizer() {
     tokens.typography.fontFamily || fontFamilies[0].value,
   );
 
-  // Update font family when it changes
   useEffect(() => {
     const matchingFont = fontFamilies.find(
       (font) => font.value === tokens.typography.fontFamily,
@@ -39,7 +38,6 @@ export function TypographyCustomizer() {
     }
   }, [tokens.typography.fontFamily]);
 
-  // Update font family in store
   useEffect(() => {
     updateTypography("fontFamily", "", selectedFontFamily);
   }, [selectedFontFamily, updateTypography]);

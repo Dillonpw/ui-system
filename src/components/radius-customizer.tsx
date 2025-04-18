@@ -9,7 +9,6 @@ export function RadiusCustomizer() {
   const { tokens, updateRadius, selectedRadius, setSelectedRadius } =
     useDesignStore();
 
-  // Apply the selected radius globally when it changes
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty("--radius", tokens.radius[selectedRadius]);
