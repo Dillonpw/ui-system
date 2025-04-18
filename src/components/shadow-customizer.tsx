@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
-import { PreviewCard } from "./PreviewCard";
+import { PreviewCard } from "@/components/preview-card";
 
 export function ShadowCustomizer() {
   const { tokens, updateShadow, selectedShadow, setSelectedShadow } =
