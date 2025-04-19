@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useDesignStore } from "@/lib/design-store";
 import { getContrastTextColor } from "@/lib/color-utils";
 
-
-
 export function GlobalThemeProvider({
   children,
 }: {
@@ -44,11 +42,8 @@ export function GlobalThemeProvider({
     document.body.style.fontWeight =
       tokens.typography.fontWeight[selectedFontWeight].toString();
 
-    root.style.setProperty("--background", tokens.colors.background);
-    root.style.setProperty(
-      "--background-text",
-      getContrastTextColor(tokens.colors.background),
-    );
+    root.style.setProperty("--page-background", "#ffffff");
+    document.body.style.backgroundColor = "var(--page-background)";
 
     root.style.setProperty("--foreground", tokens.colors.foreground);
     root.style.setProperty(

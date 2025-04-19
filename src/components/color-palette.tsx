@@ -12,13 +12,13 @@ import { getContrastTextColor } from "@/lib/color-utils";
 
 type ColorScaleName = keyof Pick<
   DesignTokens["colors"],
-  "primary" | "secondary" | "accent" | "gray"
+  "primary" | "secondary" | "accent" | "muted" 
 >;
 const colorScales: Record<ColorScaleName, number[]> = {
   primary: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   secondary: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   accent: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-  gray: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+  muted: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
 };
 
 function ColorScale({
@@ -55,50 +55,20 @@ function ColorScale({
   );
 }
 
-function SemanticColors() {
-  const { tokens } = useDesignStore();
-  const semanticColors = {
-    background: tokens.colors.background,
-    foreground: tokens.colors.foreground,
-    card: tokens.colors.card,
-    success: tokens.colors.success,
-    warning: tokens.colors.warning,
-    info: tokens.colors.info,
-  };
-
-  return (
-    <div className="space-y-3">
-      <Label className="text-card-text text-xs">Semantic Colors</Label>
-      <div className="grid grid-cols-6 gap-4">
-        {Object.entries(semanticColors).map(([name, color]) => (
-          <div key={name} className="space-y-1.5">
-            <div
-              className="flex h-10 w-full items-center justify-center border-2"
-              style={{
-                backgroundColor: color,
-                borderRadius: "var(--radius-default)",
-                color: getContrastTextColor(color),
-              }}
-            >
-              <div className="text-xs font-medium capitalize">{name}</div>
-            </div>
-            <div className="px-0.5">
-              <div className="text-card-text text-xs">{color}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function ColorPalette() {
+  const { tokens } = useDesignStore();
+
   return (
     <div className="space-y-8">
-      <Card>
+      <Card
+        style={{
+          backgroundColor: tokens.colors.card,
+          color: getContrastTextColor(tokens.colors.card),
+        }}
+      >
         <CardHeader>
-          <CardTitle>Color Palette</CardTitle>
-          <CardDescription>
+          <CardTitle style={{ color: "inherit" }}>Color Palette</CardTitle>
+          <CardDescription style={{ color: "inherit", opacity: 0.8 }}>
             Color scales and semantic colors used throughout the application.
           </CardDescription>
         </CardHeader>
@@ -110,7 +80,6 @@ export function ColorPalette() {
               scale={scale}
             />
           ))}
-          <SemanticColors />
         </CardContent>
       </Card>
     </div>

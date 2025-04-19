@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
 import { PreviewCard } from "@/components/preview-card";
 
-export function ShadowCustomizer() {
+export default function ShadowCustomizer() {
   const { tokens, updateShadow, selectedShadow, setSelectedShadow } =
     useDesignStore();
 

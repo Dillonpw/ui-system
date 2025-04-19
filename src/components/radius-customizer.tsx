@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
 import { PreviewCard } from "@/components/preview-card";
 
-export function RadiusCustomizer() {
+export default function RadiusCustomizer() {
   const { tokens, updateRadius, selectedRadius, setSelectedRadius } =
     useDesignStore();
 

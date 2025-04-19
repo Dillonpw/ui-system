@@ -52,8 +52,7 @@ export type DesignTokens = {
     primary: ColorToken;
     secondary: ColorToken;
     accent: ColorToken;
-    gray: ColorToken;
-    background: string;
+    muted: ColorToken;
     foreground: string;
     card: string;
     success: string;
@@ -106,21 +105,25 @@ export const useDesignStore = create<DesignStore>()(
       selectedFontSize: "base",
       selectedFontWeight: "normal",
       updateColor: (palette, shade, value) =>
-        set((state) => ({
-          tokens: {
-            ...state.tokens,
-            colors: {
-              ...state.tokens.colors,
-              [palette]:
-                typeof state.tokens.colors[palette] === "string"
-                  ? value
-                  : {
-                      ...state.tokens.colors[palette],
-                      [shade]: value,
-                    },
+        set((state) => {
+          const currentPalette = state.tokens.colors[palette] || {};
+
+          return {
+            tokens: {
+              ...state.tokens,
+              colors: {
+                ...state.tokens.colors,
+                [palette]:
+                  typeof currentPalette === "string"
+                    ? value
+                    : {
+                        ...currentPalette,
+                        [shade]: value,
+                      },
+              },
             },
-          },
-        })),
+          };
+        }),
       updateTypography: (category, key, value) =>
         set((state) => ({
           tokens: {
@@ -178,19 +181,46 @@ export const useDesignStore = create<DesignStore>()(
     }),
     {
       name: "design-store",
+      version: 1,
       storage: {
         getItem: (name) => {
           const str = localStorage.getItem(name);
           if (!str) return null;
           try {
             const data = JSON.parse(str);
-            return data.state;
+            if (!data.version || data.version < 1) {
+              localStorage.removeItem(name);
+              return null;
+            }
+            const state = data.state;
+            if (state?.tokens?.colors) {
+              const requiredColors = [
+                "primary",
+                "secondary",
+                "accent",
+                "muted",
+                "gray",
+              ];
+              const hasAllColors = requiredColors.every(
+                (color) =>
+                  state.tokens.colors[color] &&
+                  typeof state.tokens.colors[color] === "object",
+              );
+              if (!hasAllColors) {
+                localStorage.removeItem(name);
+                return null;
+              }
+            }
+            return state;
           } catch {
             return null;
           }
         },
         setItem: (name, value) => {
-          localStorage.setItem(name, JSON.stringify({ state: value }));
+          localStorage.setItem(
+            name,
+            JSON.stringify({ version: 1, state: value }),
+          );
         },
         removeItem: (name) => localStorage.removeItem(name),
       },

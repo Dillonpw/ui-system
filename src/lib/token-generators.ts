@@ -32,6 +32,15 @@ export function generateTailwind(tokens: DesignTokens) {
             }),
             {},
           ),
+          muted: Object.entries(tokens.colors.muted).reduce<
+            Record<string, string>
+          >(
+            (acc, [shade, value]) => ({
+              ...acc,
+              [shade]: value,
+            }),
+            {},
+          ),
         },
         fontSize: tokens.typography.fontSize,
         fontWeight: tokens.typography.fontWeight,

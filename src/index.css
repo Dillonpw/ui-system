@@ -8,10 +8,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
+  --color-background: var(--page-background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card-bg);
+  --color-card-foreground: var(--card-text);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
@@ -64,10 +64,10 @@
 :root {
   /* Shadcn UI Base Variables */
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --page-background: #ffffff;
   --foreground: oklch(0.13 0.028 261.692);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.028 261.692);
+  --card-bg: oklch(1 0 0);
+  --card-text: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.13 0.028 261.692);
   --primary: oklch(0.21 0.034 264.665);
@@ -118,10 +118,10 @@
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
+  --page-background: oklch(0.13 0.028 261.692);
   --foreground: oklch(0.985 0.002 247.839);
-  --card: oklch(0.21 0.034 264.665);
-  --card-foreground: oklch(0.985 0.002 247.839);
+  --card-bg: oklch(0.21 0.034 264.665);
+  --card-text: oklch(0.985 0.002 247.839);
   --popover: oklch(0.21 0.034 264.665);
   --popover-foreground: oklch(0.985 0.002 247.839);
   --primary: oklch(0.928 0.006 264.531);
@@ -160,7 +160,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-page-background text-foreground;
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
@@ -169,10 +169,10 @@
 
 /* Common components */
 .card {
-  background-color: var(--card);
+  background-color: var(--card-bg);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-default);
-  color: var(--card-foreground);
+  color: var(--card-text);
   border: var(--element-border);
 }
 

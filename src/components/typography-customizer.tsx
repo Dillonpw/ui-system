@@ -4,8 +4,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
 import { PreviewCard } from "@/components/preview-card";
+import { getContrastTextColor } from "@/lib/color-utils";
 
-export function TypographyCustomizer() {
+export default function TypographyCustomizer() {
   const {
     tokens,
     updateTypography,
@@ -43,10 +44,13 @@ export function TypographyCustomizer() {
   }, [selectedFontFamily, updateTypography]);
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      style={{ color: getContrastTextColor(tokens.colors.card) }}
+    >
       <div className="space-y-6">
         <div className="space-y-2">
-          <Label>Font Family</Label>
+          <Label style={{ color: "inherit" }}>Font Family</Label>
           <div className="grid grid-cols-3 gap-2">
             {fontFamilies.map((font) => (
               <Button
@@ -61,6 +65,18 @@ export function TypographyCustomizer() {
                 style={{
                   fontFamily: font.value,
                   borderRadius: tokens.radius[selectedRadius],
+                  ...(selectedFontFamily !== font.value
+                    ? {
+                        color: getContrastTextColor(tokens.colors.card),
+                        borderColor: getContrastTextColor(tokens.colors.card),
+                        backgroundColor: "transparent",
+                      }
+                    : {
+                        backgroundColor: getContrastTextColor(
+                          tokens.colors.card,
+                        ),
+                        color: tokens.colors.card,
+                      }),
                 }}
               >
                 {font.name}
@@ -70,7 +86,7 @@ export function TypographyCustomizer() {
         </div>
 
         <div className="space-y-2">
-          <Label>Font Size</Label>
+          <Label style={{ color: "inherit" }}>Font Size</Label>
           <div className="grid grid-cols-3 gap-2">
             {Object.entries(tokens.typography.fontSize).map(([size]) => (
               <Button
@@ -78,7 +94,21 @@ export function TypographyCustomizer() {
                 variant={selectedFontSize === size ? "default" : "outline"}
                 onClick={() => setSelectedFontSize(size)}
                 className="h-8"
-                style={{ borderRadius: tokens.radius[selectedRadius] }}
+                style={{
+                  borderRadius: tokens.radius[selectedRadius],
+                  ...(selectedFontSize !== size
+                    ? {
+                        color: getContrastTextColor(tokens.colors.card),
+                        borderColor: getContrastTextColor(tokens.colors.card),
+                        backgroundColor: "transparent",
+                      }
+                    : {
+                        backgroundColor: getContrastTextColor(
+                          tokens.colors.card,
+                        ),
+                        color: tokens.colors.card,
+                      }),
+                }}
               >
                 {size}
               </Button>
@@ -90,11 +120,15 @@ export function TypographyCustomizer() {
               const value = e.target.value;
               updateTypography("fontSize", selectedFontSize, value);
             }}
+            style={{
+              color: getContrastTextColor(tokens.colors.card),
+              borderColor: getContrastTextColor(tokens.colors.card),
+            }}
           />
         </div>
 
         <div className="space-y-2">
-          <Label>Font Weight</Label>
+          <Label style={{ color: "inherit" }}>Font Weight</Label>
           <div className="grid grid-cols-3 gap-2">
             {Object.entries(tokens.typography.fontWeight).map(([weight]) => (
               <Button
@@ -102,7 +136,21 @@ export function TypographyCustomizer() {
                 variant={selectedFontWeight === weight ? "default" : "outline"}
                 onClick={() => setSelectedFontWeight(weight)}
                 className="h-8"
-                style={{ borderRadius: tokens.radius[selectedRadius] }}
+                style={{
+                  borderRadius: tokens.radius[selectedRadius],
+                  ...(selectedFontWeight !== weight
+                    ? {
+                        color: getContrastTextColor(tokens.colors.card),
+                        borderColor: getContrastTextColor(tokens.colors.card),
+                        backgroundColor: "transparent",
+                      }
+                    : {
+                        backgroundColor: getContrastTextColor(
+                          tokens.colors.card,
+                        ),
+                        color: tokens.colors.card,
+                      }),
+                }}
               >
                 {weight}
               </Button>
@@ -114,20 +162,36 @@ export function TypographyCustomizer() {
               const value = e.target.value;
               updateTypography("fontWeight", selectedFontWeight, value);
             }}
+            style={{
+              color: getContrastTextColor(tokens.colors.card),
+              borderColor: getContrastTextColor(tokens.colors.card),
+            }}
           />
         </div>
       </div>
 
       <PreviewCard>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Preview</h3>
+          <h3
+            className="text-lg font-semibold"
+            style={{ color: getContrastTextColor(tokens.colors.card) }}
+          >
+            Preview
+          </h3>
           <div className="space-y-4">
-            <div className="bg-muted/20 rounded-md border p-4">
+            <div
+              className="rounded-md border p-4"
+              style={{
+                backgroundColor: tokens.colors.muted[200],
+                borderColor: getContrastTextColor(tokens.colors.muted[200]),
+              }}
+            >
               <p
                 style={{
                   fontSize: tokens.typography.fontSize[selectedFontSize],
                   fontWeight: tokens.typography.fontWeight[selectedFontWeight],
                   fontFamily: selectedFontFamily,
+                  color: getContrastTextColor(tokens.colors.muted[200]),
                 }}
                 className="mb-2"
               >
@@ -138,6 +202,7 @@ export function TypographyCustomizer() {
                   fontSize: tokens.typography.fontSize[selectedFontSize],
                   fontWeight: tokens.typography.fontWeight[selectedFontWeight],
                   fontFamily: selectedFontFamily,
+                  color: getContrastTextColor(tokens.colors.muted[200]),
                 }}
               >
                 ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -149,6 +214,7 @@ export function TypographyCustomizer() {
                     fontWeight:
                       tokens.typography.fontWeight[selectedFontWeight],
                     fontFamily: selectedFontFamily,
+                    color: getContrastTextColor(tokens.colors.muted[200]),
                   }}
                   className="mt-2"
                 >
@@ -158,21 +224,54 @@ export function TypographyCustomizer() {
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <Label className="text-xs">Current Font</Label>
-                <p className="text-muted-foreground text-sm">
+                <Label
+                  className="text-xs"
+                  style={{ color: getContrastTextColor(tokens.colors.card) }}
+                >
+                  Current Font
+                </Label>
+                <p
+                  className="text-sm"
+                  style={{
+                    color: getContrastTextColor(tokens.colors.card),
+                    opacity: 0.8,
+                  }}
+                >
                   {fontFamilies.find((f) => f.value === selectedFontFamily)
                     ?.name || "Custom"}
                 </p>
               </div>
               <div>
-                <Label className="text-xs">Current Size</Label>
-                <p className="text-muted-foreground text-sm">
+                <Label
+                  className="text-xs"
+                  style={{ color: getContrastTextColor(tokens.colors.card) }}
+                >
+                  Current Size
+                </Label>
+                <p
+                  className="text-sm"
+                  style={{
+                    color: getContrastTextColor(tokens.colors.card),
+                    opacity: 0.8,
+                  }}
+                >
                   {tokens.typography.fontSize[selectedFontSize]}
                 </p>
               </div>
               <div>
-                <Label className="text-xs">Current Weight</Label>
-                <p className="text-muted-foreground text-sm">
+                <Label
+                  className="text-xs"
+                  style={{ color: getContrastTextColor(tokens.colors.card) }}
+                >
+                  Current Weight
+                </Label>
+                <p
+                  className="text-sm"
+                  style={{
+                    color: getContrastTextColor(tokens.colors.card),
+                    opacity: 0.8,
+                  }}
+                >
                   {tokens.typography.fontWeight[selectedFontWeight]}
                 </p>
               </div>

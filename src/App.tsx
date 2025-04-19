@@ -1,14 +1,19 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ColorPalette } from "@/components/color-palette";
-import { TokenCustomizer } from "@/components/token-customizer";
 import { ComponentsShowcase } from "@/components/components-showcase";
+import { DesignCustomizer } from "@/components";
 
 export default function App() {
   return (
     <div className="bg-background flex min-h-screen flex-col items-center px-4">
       <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
         <div className="container flex h-14 items-center">
-          <img src="/dsp-logo.png" alt="Design System Playground" width={32} height={32} />
+          <img
+            src="/dsp-logo.png"
+            alt="Design System Playground"
+            width={32}
+            height={32}
+          />
           <h1 className="text-2xl font-bold">Design System Playground</h1>
         </div>
       </header>
@@ -33,17 +38,17 @@ export default function App() {
           </TabsList>
           <div className="mt-6">
             <TabsContent value="colors" className="space-y-8">
-              <TokenCustomizer defaultTab="colors" />
+              <DesignCustomizer defaultTab="colors" />
               <ColorPalette />
             </TabsContent>
             <TabsContent value="typography">
-              <TokenCustomizer defaultTab="typography" />
+              <DesignCustomizer defaultTab="typography" />
             </TabsContent>
             <TabsContent value="radius">
-              <TokenCustomizer defaultTab="radius" />
+              <DesignCustomizer defaultTab="radius" />
             </TabsContent>
             <TabsContent value="shadows">
-              <TokenCustomizer defaultTab="shadows" />
+              <DesignCustomizer defaultTab="shadows" />
             </TabsContent>
             <TabsContent value="components">
               <ComponentsShowcase />

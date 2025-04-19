@@ -7,31 +7,50 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useDesignStore } from "@/lib/design-store";
-import { ColorCustomizer } from "./color-customizer";
-import { TypographyCustomizer } from "./typography-customizer";
-import { RadiusCustomizer } from "./radius-customizer";
-import { ShadowCustomizer } from "./shadow-customizer";
+import { getContrastTextColor } from "@/lib/color-utils";
+import ColorCustomizer from "./color-customizer";
+import TypographyCustomizer from "./typography-customizer";
+import RadiusCustomizer from "./radius-customizer";
+import ShadowCustomizer from "./shadow-customizer";
 
-interface TokenCustomizerProps {
+interface DesignCustomizerProps {
   defaultTab?: "colors" | "typography" | "radius" | "shadows" | "export";
 }
 
-export function TokenCustomizer({
+export function DesignCustomizer({
   defaultTab = "colors",
-}: TokenCustomizerProps) {
-  const { resetTokens } = useDesignStore();
+}: DesignCustomizerProps) {
+  const { resetTokens, tokens } = useDesignStore();
 
   return (
-    <Card>
+    <Card
+      style={{
+        backgroundColor: tokens.colors.card,
+        color: getContrastTextColor(tokens.colors.card),
+      }}
+    >
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Design System Customizer</CardTitle>
-            <CardDescription>
+            <CardTitle style={{ color: "inherit" }}>
+              Design System Customizer
+            </CardTitle>
+            <CardDescription style={{ color: "inherit", opacity: 0.8 }}>
               Customize your design system and see live previews
             </CardDescription>
           </div>
-          <Button variant="outline" onClick={resetTokens}>
+          <Button
+            variant="outline"
+            onClick={resetTokens}
+            style={{
+              color: getContrastTextColor(tokens.colors.card),
+              borderColor: getContrastTextColor(tokens.colors.card),
+              backgroundColor: "transparent",
+              borderRadius: "var(--radius-default)",
+              boxShadow: "var(--shadow-default)",
+            }}
+            className="hover:bg-transparent hover:opacity-80"
+          >
             Reset to Defaults
           </Button>
         </div>
@@ -45,4 +64,3 @@ export function TokenCustomizer({
     </Card>
   );
 }
-
