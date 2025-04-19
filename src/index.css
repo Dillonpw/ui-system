@@ -160,7 +160,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-page-background text-foreground;
+    @apply bg-background text-foreground;
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
