@@ -18,19 +18,15 @@ export function ColorPicker({
   labelProps,
 }: ColorPickerProps) {
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("mx-auto max-w-[316px] space-y-2", className)}>
       {label && <Label {...labelProps}>{label}</Label>}
       <div className="flex flex-col gap-2">
         <HexColorPicker
           color={color}
           onChange={onChange}
-          className="!h-[200px] w-full"
+          className="h-[200px] w-full"
         />
         <div className="flex items-center gap-2">
-          <div
-            className="border-input h-9 w-9 rounded-md border"
-            style={{ backgroundColor: color }}
-          />
           <HexColorInput
             color={color}
             onChange={onChange}

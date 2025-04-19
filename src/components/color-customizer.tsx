@@ -51,8 +51,8 @@ export default function ColorCustomizer() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="space-y-4">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Primary Color"
             color={tokens.colors.primary[selectedShade]}
@@ -65,7 +65,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.primary[selectedShade],
                 color: getContrastTextColor(
@@ -78,11 +78,15 @@ export default function ColorCustomizer() {
               Primary Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.primary[selectedShade]}33`,
-                color: getContrastTextColor(
+                backgroundColor: getContrastTextColor(
                   `${tokens.colors.primary[selectedShade]}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(
+                    `${tokens.colors.primary[selectedShade]}33`,
+                  ),
                 ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
@@ -93,7 +97,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Secondary Color"
             color={tokens.colors.secondary[selectedShade]}
@@ -106,7 +110,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.secondary[selectedShade],
                 color: getContrastTextColor(
@@ -119,11 +123,15 @@ export default function ColorCustomizer() {
               Secondary Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.secondary[selectedShade]}33`,
-                color: getContrastTextColor(
+                backgroundColor: getContrastTextColor(
                   `${tokens.colors.secondary[selectedShade]}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(
+                    `${tokens.colors.secondary[selectedShade]}33`,
+                  ),
                 ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
@@ -134,7 +142,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Accent Color"
             color={tokens.colors.accent[selectedShade]}
@@ -147,7 +155,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.accent[selectedShade],
                 color: getContrastTextColor(
@@ -160,11 +168,15 @@ export default function ColorCustomizer() {
               Accent Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.accent[selectedShade]}33`,
-                color: getContrastTextColor(
+                backgroundColor: getContrastTextColor(
                   `${tokens.colors.accent[selectedShade]}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(
+                    `${tokens.colors.accent[selectedShade]}33`,
+                  ),
                 ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
@@ -174,10 +186,7 @@ export default function ColorCustomizer() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Muted Color"
             color={tokens.colors.muted[selectedShade]}
@@ -190,7 +199,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.muted[selectedShade],
                 color: getContrastTextColor(tokens.colors.muted[selectedShade]),
@@ -201,11 +210,15 @@ export default function ColorCustomizer() {
               Muted Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.muted[selectedShade]}33`,
-                color: getContrastTextColor(
+                backgroundColor: getContrastTextColor(
                   `${tokens.colors.muted[selectedShade]}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(
+                    `${tokens.colors.muted[selectedShade]}33`,
+                  ),
                 ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
@@ -216,7 +229,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Foreground"
             color={tokens.colors.foreground}
@@ -227,7 +240,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.foreground,
                 color: getContrastTextColor(tokens.colors.foreground),
@@ -238,10 +251,14 @@ export default function ColorCustomizer() {
               Foreground Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.foreground}33`,
-                color: getContrastTextColor(`${tokens.colors.foreground}33`),
+                backgroundColor: getContrastTextColor(
+                  `${tokens.colors.foreground}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(`${tokens.colors.foreground}33`),
+                ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
               }}
@@ -251,7 +268,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Container Background"
             color={tokens.colors.card}
@@ -262,7 +279,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.card,
                 color: getContrastTextColor(tokens.colors.card),
@@ -273,10 +290,14 @@ export default function ColorCustomizer() {
               Container Background
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.card}33`,
-                color: getContrastTextColor(`${tokens.colors.card}33`),
+                backgroundColor: getContrastTextColor(
+                  `${tokens.colors.card}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(`${tokens.colors.card}33`),
+                ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
               }}
@@ -285,10 +306,8 @@ export default function ColorCustomizer() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Success"
             color={tokens.colors.success}
@@ -299,7 +318,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.success,
                 color: getContrastTextColor(tokens.colors.success),
@@ -310,10 +329,14 @@ export default function ColorCustomizer() {
               Success Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.success}33`,
-                color: getContrastTextColor(`${tokens.colors.success}33`),
+                backgroundColor: getContrastTextColor(
+                  `${tokens.colors.success}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(`${tokens.colors.success}33`),
+                ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
               }}
@@ -323,7 +346,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Warning"
             color={tokens.colors.warning}
@@ -334,7 +357,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.warning,
                 color: getContrastTextColor(tokens.colors.warning),
@@ -345,10 +368,14 @@ export default function ColorCustomizer() {
               Warning Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.warning}33`,
-                color: getContrastTextColor(`${tokens.colors.warning}33`),
+                backgroundColor: getContrastTextColor(
+                  `${tokens.colors.warning}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(`${tokens.colors.warning}33`),
+                ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
               }}
@@ -358,7 +385,7 @@ export default function ColorCustomizer() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="flex flex-col items-center space-y-4">
           <ColorPicker
             label="Info"
             color={tokens.colors.info}
@@ -369,7 +396,7 @@ export default function ColorCustomizer() {
           />
           <div className="space-y-2">
             <Button
-              className="w-full"
+              className="mx-auto block w-full max-w-[316px]"
               style={{
                 backgroundColor: tokens.colors.info,
                 color: getContrastTextColor(tokens.colors.info),
@@ -380,10 +407,14 @@ export default function ColorCustomizer() {
               Info Button
             </Button>
             <div
-              className="flex h-12 items-center justify-center"
+              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
               style={{
-                backgroundColor: `${tokens.colors.info}33`,
-                color: getContrastTextColor(`${tokens.colors.info}33`),
+                backgroundColor: getContrastTextColor(
+                  `${tokens.colors.info}33`,
+                ),
+                color: getContrastTextColor(
+                  getContrastTextColor(`${tokens.colors.info}33`),
+                ),
                 borderRadius: "var(--radius-default)",
                 boxShadow: "var(--shadow-default)",
               }}
