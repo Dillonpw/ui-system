@@ -41,6 +41,9 @@ export function generateTailwind(tokens: DesignTokens) {
             }),
             {},
           ),
+          page: {
+            background: tokens.colors.page,
+          },
         },
         fontSize: tokens.typography.fontSize,
         fontWeight: tokens.typography.fontWeight,

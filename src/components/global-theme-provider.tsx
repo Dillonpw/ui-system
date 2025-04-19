@@ -42,7 +42,7 @@ export function GlobalThemeProvider({
     document.body.style.fontWeight =
       tokens.typography.fontWeight[selectedFontWeight].toString();
 
-    root.style.setProperty("--page-background", "#ffffff");
+    root.style.setProperty("--page-background", tokens.colors.page);
     document.body.style.backgroundColor = "var(--page-background)";
 
     root.style.setProperty("--foreground", tokens.colors.foreground);

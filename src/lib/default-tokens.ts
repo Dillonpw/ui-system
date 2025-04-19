@@ -59,6 +59,7 @@ export const defaultTokens: DesignTokens = {
     success: "#16a34a",
     warning: "#eab308",
     info: "#0ea5e9",
+    page: "#ffffff",
   },
   typography: {
     fontFamily:

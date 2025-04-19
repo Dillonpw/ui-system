@@ -58,6 +58,7 @@ export type DesignTokens = {
     success: string;
     warning: string;
     info: string;
+    page: string;
   };
   typography: {
     fontFamily: string;
