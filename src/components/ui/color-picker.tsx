@@ -30,7 +30,7 @@ export function ColorPicker({
           <HexColorInput
             color={color}
             onChange={onChange}
-            className="border-input h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm"
+            className="border-input h-9 w-fit rounded-md border bg-transparent px-3 py-1 text-sm"
             prefixed
           />
         </div>

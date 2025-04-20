@@ -3,21 +3,132 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ColorPicker } from "@/components/ui/color-picker";
 import { useDesignStore } from "@/lib/design-store";
-import { getContrastTextColor } from "../lib/color-utils";
+import { getContrastTextColor, getTextColor } from "../lib/color-utils";
+import { defaultTokens } from "../lib/default-tokens";
+import type { DesignTokens } from "@/lib/design-store";
 
 const shadeValues = [
   50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950,
 ] as const;
 type ShadeNumber = (typeof shadeValues)[number];
 
+const SHADED_COLORS = [
+  { key: "primary", label: "Primary Color" },
+  { key: "secondary", label: "Secondary Color" },
+  { key: "accent", label: "Accent Color" },
+  { key: "muted", label: "Muted Color" },
+] as const;
+
+const SINGLE_COLORS = [
+  { key: "foreground", label: "Foreground" },
+  { key: "card", label: "Container" },
+  { key: "success", label: "Success" },
+  { key: "warning", label: "Warning" },
+  { key: "info", label: "Info" },
+] as const;
+
 export default function ColorCustomizer() {
   const { tokens, updateColor } = useDesignStore();
   const [selectedShade, setSelectedShade] = useState<ShadeNumber>(500);
 
+  const restoreColor = (
+    colorKey: keyof DesignTokens["colors"],
+    shade?: string,
+  ) => {
+    const defaultColor = defaultTokens.colors[colorKey];
+    if (shade && typeof defaultColor !== "string") {
+      updateColor(
+        colorKey,
+        shade,
+        defaultColor[shade as keyof typeof defaultColor],
+      );
+    } else if (!shade && typeof defaultColor === "string") {
+      updateColor(colorKey, "", defaultColor);
+    }
+  };
+
+  const renderColorPicker = (
+    colorKey: keyof DesignTokens["colors"],
+    label: string,
+    hasShades: boolean = false,
+  ) => {
+    const color = hasShades
+      ? tokens.colors[colorKey][selectedShade].toString()
+      : tokens.colors[colorKey].toString();
+
+    return (
+      <div className="flex flex-col items-center space-y-4">
+        <div className="w-full space-y-2">
+          <div className="flex items-center justify-start gap-2">
+            <Label
+              style={{
+                color: getTextColor(
+                  tokens.colors.card,
+                  tokens.colors.foreground,
+                ),
+              }}
+            >
+              {label}
+            </Label>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                restoreColor(
+                  colorKey,
+                  hasShades ? selectedShade.toString() : undefined,
+                )
+              }
+              style={{
+                color: getTextColor(
+                  tokens.colors.card,
+                  tokens.colors.foreground,
+                ),
+                borderColor: getTextColor(
+                  tokens.colors.card,
+                  tokens.colors.foreground,
+                ),
+                backgroundColor: "transparent",
+                borderRadius: "var(--radius-default)",
+              }}
+            >
+              Restore
+            </Button>
+          </div>
+          <ColorPicker
+            color={color}
+            onChange={(value) =>
+              updateColor(
+                colorKey,
+                hasShades ? selectedShade.toString() : "",
+                value,
+              )
+            }
+          />
+        </div>
+        <div className="space-y-2">
+          <Button
+            className="mx-auto block w-full max-w-[316px]"
+            style={{
+              backgroundColor: color,
+              color: getTextColor(color, tokens.colors.foreground),
+              borderRadius: "var(--radius-default)",
+              boxShadow: "var(--shadow-default)",
+            }}
+          >
+            {label}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       className="space-y-4"
-      style={{ color: getContrastTextColor(tokens.colors.card) }}
+      style={{
+        color: getTextColor(tokens.colors.card, tokens.colors.foreground),
+      }}
     >
       <h2 className="text-lg font-semibold" style={{ color: "inherit" }}>
         Colors
@@ -30,18 +141,29 @@ export default function ColorCustomizer() {
               key={shade}
               variant={selectedShade === shade ? "default" : "outline"}
               onClick={() => setSelectedShade(shade)}
-              className="h-8 w-12"
+              className="h-8 w-12 sm:w-10"
               size="sm"
               style={
                 selectedShade !== shade
                   ? {
-                      color: getContrastTextColor(tokens.colors.card),
-                      borderColor: getContrastTextColor(tokens.colors.card),
+                      color: getTextColor(
+                        tokens.colors.card,
+                        tokens.colors.foreground,
+                      ),
+                      borderColor: getTextColor(
+                        tokens.colors.card,
+                        tokens.colors.foreground,
+                      ),
                       backgroundColor: "transparent",
+                      borderRadius: "var(--radius-default)",
                     }
                   : {
-                      backgroundColor: getContrastTextColor(tokens.colors.card),
+                      backgroundColor: getTextColor(
+                        tokens.colors.card,
+                        tokens.colors.foreground,
+                      ),
                       color: tokens.colors.card,
+                      borderRadius: "var(--radius-default)",
                     }
               }
             >
@@ -52,377 +174,20 @@ export default function ColorCustomizer() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Primary Color"
-            color={tokens.colors.primary[selectedShade]}
-            onChange={(value) =>
-              updateColor("primary", selectedShade.toString(), value)
-            }
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.primary[selectedShade],
-                color: getContrastTextColor(
-                  tokens.colors.primary[selectedShade],
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Primary Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.primary[selectedShade]}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(
-                    `${tokens.colors.primary[selectedShade]}33`,
-                  ),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
+        {SHADED_COLORS.map(({ key, label }) => (
+          <div key={key}>
+            {renderColorPicker(
+              key as keyof DesignTokens["colors"],
+              label,
+              true,
+            )}
           </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Secondary Color"
-            color={tokens.colors.secondary[selectedShade]}
-            onChange={(value) =>
-              updateColor("secondary", selectedShade.toString(), value)
-            }
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.secondary[selectedShade],
-                color: getContrastTextColor(
-                  tokens.colors.secondary[selectedShade],
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Secondary Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.secondary[selectedShade]}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(
-                    `${tokens.colors.secondary[selectedShade]}33`,
-                  ),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
+        ))}
+        {SINGLE_COLORS.map(({ key, label }) => (
+          <div key={key}>
+            {renderColorPicker(key as keyof DesignTokens["colors"], label)}
           </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Accent Color"
-            color={tokens.colors.accent[selectedShade]}
-            onChange={(value) =>
-              updateColor("accent", selectedShade.toString(), value)
-            }
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.accent[selectedShade],
-                color: getContrastTextColor(
-                  tokens.colors.accent[selectedShade],
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Accent Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.accent[selectedShade]}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(
-                    `${tokens.colors.accent[selectedShade]}33`,
-                  ),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Muted Color"
-            color={tokens.colors.muted[selectedShade]}
-            onChange={(value) =>
-              updateColor("muted", selectedShade.toString(), value)
-            }
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.muted[selectedShade],
-                color: getContrastTextColor(tokens.colors.muted[selectedShade]),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Muted Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.muted[selectedShade]}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(
-                    `${tokens.colors.muted[selectedShade]}33`,
-                  ),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Foreground"
-            color={tokens.colors.foreground}
-            onChange={(value) => updateColor("foreground", "", value)}
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.foreground,
-                color: getContrastTextColor(tokens.colors.foreground),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Foreground Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.foreground}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(`${tokens.colors.foreground}33`),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Container Background"
-            color={tokens.colors.card}
-            onChange={(value) => updateColor("card", "", value)}
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.card,
-                color: getContrastTextColor(tokens.colors.card),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Container Background
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.card}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(`${tokens.colors.card}33`),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Success"
-            color={tokens.colors.success}
-            onChange={(value) => updateColor("success", "", value)}
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.success,
-                color: getContrastTextColor(tokens.colors.success),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Success Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.success}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(`${tokens.colors.success}33`),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Warning"
-            color={tokens.colors.warning}
-            onChange={(value) => updateColor("warning", "", value)}
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.warning,
-                color: getContrastTextColor(tokens.colors.warning),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Warning Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.warning}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(`${tokens.colors.warning}33`),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center space-y-4">
-          <ColorPicker
-            label="Info"
-            color={tokens.colors.info}
-            onChange={(value) => updateColor("info", "", value)}
-            labelProps={{
-              style: { color: getContrastTextColor(tokens.colors.card) },
-            }}
-          />
-          <div className="space-y-2">
-            <Button
-              className="mx-auto block w-full max-w-[316px]"
-              style={{
-                backgroundColor: tokens.colors.info,
-                color: getContrastTextColor(tokens.colors.info),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Info Button
-            </Button>
-            <div
-              className="mx-auto flex h-12 w-full max-w-[316px] items-center justify-center"
-              style={{
-                backgroundColor: getContrastTextColor(
-                  `${tokens.colors.info}33`,
-                ),
-                color: getContrastTextColor(
-                  getContrastTextColor(`${tokens.colors.info}33`),
-                ),
-                borderRadius: "var(--radius-default)",
-                boxShadow: "var(--shadow-default)",
-              }}
-            >
-              Light
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

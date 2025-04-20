@@ -55,26 +55,26 @@ export default function ShadowCustomizer() {
           <h3 className="text-lg font-semibold">Preview</h3>
           <div className="grid gap-4">
             <div
-              className="bg-card h-20 rounded-lg"
+              className="bg-card border-muted h-20 rounded-lg border"
               style={{
                 boxShadow: "var(--shadow-preview)",
               }}
             />
             <div className="grid grid-cols-3 gap-2">
               <div
-                className="bg-card h-12 rounded-lg"
+                className="bg-card border-muted h-12 rounded-lg border"
                 style={{
                   boxShadow: "var(--shadow-preview)",
                 }}
               />
               <div
-                className="bg-card h-12 rounded-lg"
+                className="bg-card border-muted h-12 rounded-lg border"
                 style={{
                   boxShadow: "var(--shadow-preview)",
                 }}
               />
               <div
-                className="bg-card h-12 rounded-lg"
+                className="bg-card border-muted h-12 rounded-lg border"
                 style={{
                   boxShadow: "var(--shadow-preview)",
                 }}

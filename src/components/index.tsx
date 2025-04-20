@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useDesignStore } from "@/lib/design-store";
-import { getContrastTextColor } from "@/lib/color-utils";
+import { getTextColor } from "@/lib/color-utils";
 import ColorCustomizer from "./color-customizer";
 import TypographyCustomizer from "./typography-customizer";
 import RadiusCustomizer from "./radius-customizer";
@@ -26,7 +26,7 @@ export function DesignCustomizer({
     <Card
       style={{
         backgroundColor: tokens.colors.card,
-        color: getContrastTextColor(tokens.colors.card),
+        color: getTextColor(tokens.colors.card, tokens.colors.foreground),
       }}
     >
       <CardHeader>
@@ -43,8 +43,11 @@ export function DesignCustomizer({
             variant="outline"
             onClick={resetTokens}
             style={{
-              color: getContrastTextColor(tokens.colors.card),
-              borderColor: getContrastTextColor(tokens.colors.card),
+              color: getTextColor(tokens.colors.card, tokens.colors.foreground),
+              borderColor: getTextColor(
+                tokens.colors.card,
+                tokens.colors.foreground,
+              ),
               backgroundColor: "transparent",
               borderRadius: "var(--radius-default)",
               boxShadow: "var(--shadow-default)",

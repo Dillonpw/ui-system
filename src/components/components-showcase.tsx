@@ -85,7 +85,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export function ComponentsShowcase() {
-  const { selectedRadius } = useDesignStore();
+  const { selectedRadius, tokens } = useDesignStore();
 
   const getRadiusClass = (
     size?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full",
@@ -103,9 +103,17 @@ export function ComponentsShowcase() {
   };
 
   return (
-    <ScrollArea className="bg-background text-foreground h-[800px] w-full border p-6 shadow-sm">
+    <ScrollArea
+      style={{
+        backgroundColor: tokens.colors.card,
+        color: tokens.colors.foreground,
+      }}
+      className="bg-background text-foreground h-[800px] w-full border p-6 shadow-sm"
+    >
       <div className="space-y-8">
-        <h2 className="text-foreground text-2xl font-bold">Shadcn Components</h2>
+        <h2 className="text-foreground text-2xl font-bold">
+          Shadcn Components
+        </h2>
         <div className="bg-card space-y-8 p-6 shadow-md">
           {/* Accordion */}
           <div className="space-y-2">
@@ -201,7 +209,7 @@ export function ComponentsShowcase() {
 
           {/* AspectRatio */}
           <div className="space-y-2">
-            <Label>Aspect Ratio (16:9)</Label>
+            <Label className="text-foreground">Aspect Ratio (16:9)</Label>
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <div className="text-muted-foreground flex h-full items-center justify-center">
                 16:9 Aspect Ratio
@@ -211,7 +219,7 @@ export function ComponentsShowcase() {
 
           {/* Avatar */}
           <div className="space-y-2">
-            <Label>Avatar</Label>
+            <Label className="text-foreground">Avatar</Label>
             <div className="flex items-center space-x-4">
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
@@ -264,9 +272,9 @@ export function ComponentsShowcase() {
 
           {/* Button Variants */}
           <div className="space-y-2">
-            <Label>Buttons</Label>
+            <Label className="text-foreground">Buttons</Label>
             <div className="flex flex-wrap gap-2">
-              <Button>Default</Button>
+              <Button className="text-foreground">Default</Button>
               <Button variant="secondary">Secondary</Button>
               <Button variant="destructive">Destructive</Button>
               <Button variant="outline">Outline</Button>
@@ -303,7 +311,7 @@ export function ComponentsShowcase() {
 
           {/* Checkbox */}
           <div className="space-y-2">
-            <Label>Checkbox</Label>
+            <Label className="text-foreground">Checkbox</Label>
             <div className="flex items-center space-x-2">
               <Checkbox id="terms" />
               <Label htmlFor="terms">Accept terms</Label>
@@ -369,7 +377,7 @@ export function ComponentsShowcase() {
 
           {/* Dropdown Menu */}
           <div className="space-y-2">
-            <Label>Dropdown Menu</Label>
+            <Label className="text-foreground">Dropdown Menu</Label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">Open Menu</Button>
@@ -385,7 +393,7 @@ export function ComponentsShowcase() {
 
           {/* Hover Card */}
           <div className="space-y-2">
-            <Label>Hover Card</Label>
+            <Label className="text-foreground">Hover Card</Label>
             <HoverCard>
               <HoverCardTrigger asChild>
                 <Button variant="link">Hover for card</Button>
@@ -403,13 +411,13 @@ export function ComponentsShowcase() {
 
           {/* Input */}
           <div className="space-y-2">
-            <Label>Input</Label>
+            <Label className="text-foreground">Input</Label>
             <Input placeholder="Basic input" />
           </div>
 
           {/* Radio Group */}
           <div className="space-y-2">
-            <Label>Radio Group</Label>
+            <Label className="text-foreground">Radio Group</Label>
             <RadioGroup defaultValue="option-1">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="option-1" id="option-1" />
@@ -424,7 +432,7 @@ export function ComponentsShowcase() {
 
           {/* Select */}
           <div className="space-y-2">
-            <Label>Select</Label>
+            <Label className="text-foreground">Select</Label>
             <Select>
               <SelectTrigger>
                 <SelectValue placeholder="Select an option" />
@@ -438,7 +446,7 @@ export function ComponentsShowcase() {
 
           {/* Skeleton */}
           <div className="space-y-2">
-            <Label>Skeleton</Label>
+            <Label className="text-foreground">Skeleton</Label>
             <div className="space-y-2">
               <Skeleton className="h-4 w-[100px]" />
               <Skeleton className="h-4 w-[200px]" />
@@ -447,13 +455,13 @@ export function ComponentsShowcase() {
 
           {/* Slider */}
           <div className="space-y-2">
-            <Label>Slider</Label>
+            <Label className="text-foreground">Slider</Label>
             <Slider defaultValue={[50]} max={100} step={1} />
           </div>
 
           {/* Switch */}
           <div className="space-y-2">
-            <Label>Switch</Label>
+            <Label className="text-foreground">Switch</Label>
             <div className="flex items-center space-x-2">
               <Switch id="airplane-mode" />
               <Label htmlFor="airplane-mode">Airplane Mode</Label>
@@ -462,7 +470,7 @@ export function ComponentsShowcase() {
 
           {/* Table */}
           <div className="space-y-2">
-            <Label>Table</Label>
+            <Label className="text-foreground">Table</Label>
             <div className="overflow-hidden border">
               <Table>
                 <TableHeader>
@@ -483,13 +491,13 @@ export function ComponentsShowcase() {
 
           {/* Textarea */}
           <div className="space-y-2">
-            <Label>Textarea</Label>
+            <Label className="text-foreground">Textarea</Label>
             <Textarea placeholder="Basic textarea" />
           </div>
 
           {/* Tooltip */}
           <div className="space-y-2">
-            <Label>Tooltip</Label>
+            <Label className="text-foreground">Tooltip</Label>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

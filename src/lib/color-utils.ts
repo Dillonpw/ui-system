@@ -14,3 +14,12 @@ export function getContrastTextColor(color: string) {
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.5 ? "#000000" : "#ffffff";
 }
+
+const DEFAULT_FOREGROUND = "#020617";
+
+export function getTextColor(backgroundColor: string, foregroundColor: string) {
+  if (foregroundColor !== DEFAULT_FOREGROUND) {
+    return foregroundColor;
+  }
+  return getContrastTextColor(backgroundColor);
+}

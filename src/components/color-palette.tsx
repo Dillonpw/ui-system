@@ -8,11 +8,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { useDesignStore } from "@/lib/design-store";
 import type { DesignTokens } from "@/lib/design-store";
-import { getContrastTextColor } from "@/lib/color-utils";
+import { getTextColor } from "@/lib/color-utils";
 
 type ColorScaleName = keyof Pick<
   DesignTokens["colors"],
-  "primary" | "secondary" | "accent" | "muted" 
+  "primary" | "secondary" | "accent" | "muted"
 >;
 const colorScales: Record<ColorScaleName, number[]> = {
   primary: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
@@ -41,8 +41,9 @@ function ColorScale({
               style={{
                 backgroundColor: tokens.colors[name][weight.toString()],
                 borderRadius: "var(--radius-default)",
-                color: getContrastTextColor(
+                color: getTextColor(
                   tokens.colors[name][weight.toString()],
+                  tokens.colors.foreground,
                 ),
               }}
             >
@@ -63,7 +64,7 @@ export function ColorPalette() {
       <Card
         style={{
           backgroundColor: tokens.colors.card,
-          color: getContrastTextColor(tokens.colors.card),
+          color: getTextColor(tokens.colors.card, tokens.colors.foreground),
         }}
       >
         <CardHeader>
