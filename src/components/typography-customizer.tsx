@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -26,23 +25,6 @@ export default function TypographyCustomizer() {
     { name: "Roboto Mono", value: "'Roboto Mono', monospace" },
   ];
 
-  const [selectedFontFamily, setSelectedFontFamily] = useState(
-    tokens.typography.fontFamily || fontFamilies[0].value,
-  );
-
-  useEffect(() => {
-    const matchingFont = fontFamilies.find(
-      (font) => font.value === tokens.typography.fontFamily,
-    );
-    if (matchingFont) {
-      setSelectedFontFamily(matchingFont.value);
-    }
-  }, [tokens.typography.fontFamily]);
-
-  useEffect(() => {
-    updateTypography("fontFamily", "", selectedFontFamily);
-  }, [selectedFontFamily, updateTypography]);
-
   return (
     <div
       className="space-y-6"
@@ -56,16 +38,18 @@ export default function TypographyCustomizer() {
               <Button
                 key={font.name}
                 variant={
-                  selectedFontFamily === font.value ? "default" : "outline"
+                  tokens.typography.fontFamily === font.value
+                    ? "default"
+                    : "outline"
                 }
                 onClick={() => {
-                  setSelectedFontFamily(font.value);
+                  updateTypography("fontFamily", "", font.value);
                 }}
                 className="h-8"
                 style={{
                   fontFamily: font.value,
                   borderRadius: tokens.radius[selectedRadius],
-                  ...(selectedFontFamily !== font.value
+                  ...(tokens.typography.fontFamily !== font.value
                     ? {
                         color: getContrastTextColor(tokens.colors.card),
                         borderColor: getContrastTextColor(tokens.colors.card),
@@ -190,7 +174,7 @@ export default function TypographyCustomizer() {
                 style={{
                   fontSize: tokens.typography.fontSize[selectedFontSize],
                   fontWeight: tokens.typography.fontWeight[selectedFontWeight],
-                  fontFamily: selectedFontFamily,
+                  fontFamily: tokens.typography.fontFamily,
                   color: getContrastTextColor(tokens.colors.muted[200]),
                 }}
                 className="mb-2"
@@ -201,19 +185,19 @@ export default function TypographyCustomizer() {
                 style={{
                   fontSize: tokens.typography.fontSize[selectedFontSize],
                   fontWeight: tokens.typography.fontWeight[selectedFontWeight],
-                  fontFamily: selectedFontFamily,
+                  fontFamily: tokens.typography.fontFamily,
                   color: getContrastTextColor(tokens.colors.muted[200]),
                 }}
               >
                 ABCDEFGHIJKLMNOPQRSTUVWXYZ
               </p>
-              {selectedFontFamily.includes("Mono") && (
+              {tokens.typography.fontFamily.includes("Mono") && (
                 <p
                   style={{
                     fontSize: tokens.typography.fontSize[selectedFontSize],
                     fontWeight:
                       tokens.typography.fontWeight[selectedFontWeight],
-                    fontFamily: selectedFontFamily,
+                    fontFamily: tokens.typography.fontFamily,
                     color: getContrastTextColor(tokens.colors.muted[200]),
                   }}
                   className="mt-2"
@@ -237,8 +221,9 @@ export default function TypographyCustomizer() {
                     opacity: 0.8,
                   }}
                 >
-                  {fontFamilies.find((f) => f.value === selectedFontFamily)
-                    ?.name || "Custom"}
+                  {fontFamilies.find(
+                    (f) => f.value === tokens.typography.fontFamily,
+                  )?.name || "Custom"}
                 </p>
               </div>
               <div>

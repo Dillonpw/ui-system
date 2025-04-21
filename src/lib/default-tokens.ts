@@ -62,8 +62,7 @@ export const defaultTokens: DesignTokens = {
     page: "#ffffff",
   },
   typography: {
-    fontFamily:
-      "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+    fontFamily: "Inter, system-ui, sans-serif",
     fontSize: {
       xs: "0.75rem" /* 12px */,
       sm: "0.875rem" /* 14px */,

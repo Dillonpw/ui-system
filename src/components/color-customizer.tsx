@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ColorPicker } from "@/components/ui/color-picker";
 import { useDesignStore } from "@/lib/design-store";
-import { getContrastTextColor, getTextColor } from "../lib/color-utils";
+import { getTextColor } from "../lib/color-utils";
 import { defaultTokens } from "../lib/default-tokens";
 import type { DesignTokens } from "@/lib/design-store";
 
