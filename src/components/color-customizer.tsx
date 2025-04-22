@@ -133,7 +133,7 @@ export default function ColorCustomizer() {
       <h2 className="text-lg font-semibold" style={{ color: "inherit" }}>
         Colors
       </h2>
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-start">
         <div className="flex items-center space-x-2">
           <Label style={{ color: "inherit" }}>Shade:</Label>
           {shadeValues.map((shade) => (

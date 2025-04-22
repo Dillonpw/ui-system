@@ -54,7 +54,7 @@ export function DesignCustomizer({
             }}
             className="hover:bg-transparent hover:opacity-80"
           >
-            Reset to Defaults
+            Reset All
           </Button>
         </div>
       </CardHeader>

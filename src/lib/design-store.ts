@@ -95,6 +95,11 @@ type DesignStore = {
   setSelectedFontSize: (size: string) => void;
   setSelectedFontWeight: (weight: string) => void;
   resetTokens: () => void;
+  resetFontFamily: () => void;
+  resetFontSize: () => void;
+  resetFontWeight: () => void;
+  resetRadius: () => void;
+  resetShadow: () => void;
 };
 
 export const useDesignStore = create<DesignStore>()(
@@ -179,6 +184,54 @@ export const useDesignStore = create<DesignStore>()(
           selectedFontSize: "base",
           selectedFontWeight: "normal",
         }),
+      resetFontFamily: () =>
+        set((state) => ({
+          tokens: {
+            ...state.tokens,
+            typography: {
+              ...state.tokens.typography,
+              fontFamily: defaultTokens.typography.fontFamily,
+            },
+          },
+        })),
+      resetFontSize: () =>
+        set((state) => ({
+          tokens: {
+            ...state.tokens,
+            typography: {
+              ...state.tokens.typography,
+              fontSize: defaultTokens.typography.fontSize,
+            },
+          },
+          selectedFontSize: "base",
+        })),
+      resetFontWeight: () =>
+        set((state) => ({
+          tokens: {
+            ...state.tokens,
+            typography: {
+              ...state.tokens.typography,
+              fontWeight: defaultTokens.typography.fontWeight,
+            },
+          },
+          selectedFontWeight: "normal",
+        })),
+      resetRadius: () =>
+        set((state) => ({
+          tokens: {
+            ...state.tokens,
+            radius: defaultTokens.radius,
+          },
+          selectedRadius: "md",
+        })),
+      resetShadow: () =>
+        set((state) => ({
+          tokens: {
+            ...state.tokens,
+            shadows: defaultTokens.shadows,
+          },
+          selectedShadow: "sm",
+        })),
     }),
     {
       name: "design-store",

@@ -3,11 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useDesignStore } from "@/lib/design-store";
-import { PreviewCard } from "@/components/preview-card";
+import { DesignPreview } from "@/components/design-preview";
+import { getContrastTextColor } from "@/lib/color-utils";
 
 export default function ShadowCustomizer() {
-  const { tokens, updateShadow, selectedShadow, setSelectedShadow } =
-    useDesignStore();
+  const {
+    tokens,
+    updateShadow,
+    selectedShadow,
+    setSelectedShadow,
+    selectedRadius,
+    resetShadow,
+  } = useDesignStore();
 
   const shadowOptions = [
     "none",
@@ -27,10 +34,29 @@ export default function ShadowCustomizer() {
   }, [tokens.shadows, selectedShadow]);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <div className="space-y-4">
+    <div
+      className="space-y-6"
+      style={{ color: getContrastTextColor(tokens.colors.card) }}
+    >
+      <div className="space-y-6">
         <div className="space-y-2">
-          <Label>Shadow Size</Label>
+          <div className="flex items-center justify-between">
+            <Label style={{ color: "inherit" }}>Shadow Size</Label>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetShadow}
+              style={{
+                color: getContrastTextColor(tokens.colors.card),
+                borderColor: getContrastTextColor(tokens.colors.card),
+                backgroundColor: "transparent",
+                borderRadius: tokens.radius[selectedRadius],
+              }}
+              className="h-7 px-2 text-xs hover:bg-transparent hover:opacity-80"
+            >
+              Restore Default
+            </Button>
+          </div>
           <div className="grid grid-cols-4 gap-2">
             {shadowOptions.map((size) => (
               <Button
@@ -38,6 +64,21 @@ export default function ShadowCustomizer() {
                 variant={selectedShadow === size ? "default" : "outline"}
                 onClick={() => setSelectedShadow(size)}
                 className="h-8"
+                style={{
+                  borderRadius: tokens.radius[selectedRadius],
+                  ...(selectedShadow !== size
+                    ? {
+                        color: getContrastTextColor(tokens.colors.card),
+                        borderColor: getContrastTextColor(tokens.colors.card),
+                        backgroundColor: "transparent",
+                      }
+                    : {
+                        backgroundColor: getContrastTextColor(
+                          tokens.colors.card,
+                        ),
+                        color: tokens.colors.card,
+                      }),
+                }}
               >
                 {size}
               </Button>
@@ -46,43 +87,19 @@ export default function ShadowCustomizer() {
           <Input
             value={tokens.shadows[selectedShadow]}
             onChange={(e) => updateShadow(selectedShadow, e.target.value)}
+            style={{
+              color: getContrastTextColor(tokens.colors.card),
+              borderColor: getContrastTextColor(tokens.colors.card),
+            }}
           />
         </div>
       </div>
 
-      <PreviewCard className="bg-background">
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Preview</h3>
-          <div className="grid gap-4">
-            <div
-              className="bg-card border-muted h-20 rounded-lg border"
-              style={{
-                boxShadow: "var(--shadow-preview)",
-              }}
-            />
-            <div className="grid grid-cols-3 gap-2">
-              <div
-                className="bg-card border-muted h-12 rounded-lg border"
-                style={{
-                  boxShadow: "var(--shadow-preview)",
-                }}
-              />
-              <div
-                className="bg-card border-muted h-12 rounded-lg border"
-                style={{
-                  boxShadow: "var(--shadow-preview)",
-                }}
-              />
-              <div
-                className="bg-card border-muted h-12 rounded-lg border"
-                style={{
-                  boxShadow: "var(--shadow-preview)",
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </PreviewCard>
+      <DesignPreview
+        tokens={tokens}
+        selectedRadius={selectedRadius}
+        selectedShadow={selectedShadow}
+      />
     </div>
   );
 }
