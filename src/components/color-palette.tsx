@@ -37,7 +37,7 @@ function ColorScale({
         {scale.map((weight) => (
           <div key={weight} className="space-y-1.5">
             <div
-              className="flex h-10 w-full items-center justify-center"
+              className="flex h-10 w-full items-center justify-center text-base"
               style={{
                 backgroundColor: tokens.colors[name][weight.toString()],
                 borderRadius: "var(--radius-default)",
